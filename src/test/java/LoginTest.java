@@ -18,7 +18,7 @@ public class LoginTest {
     @Test
     public void login() throws InterruptedException {
         driver.get("http://the-internet.herokuapp.com/login");
-        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
         driver.findElement(By.id("username")).sendKeys("tomsmith");
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         driver.findElement(By.cssSelector("#login button")).click();
