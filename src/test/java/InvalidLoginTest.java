@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertTrue;
 
-public class LoginTest {
+public class InvalidLoginTest {
     private ChromeDriver driver;
 
     @BeforeMethod
@@ -16,19 +16,17 @@ public class LoginTest {
     }
 
     @Test
-    public void login() throws InterruptedException {
+    public void invalidLogin() {
         driver.get("http://the-internet.herokuapp.com/login");
         driver.manage().window().maximize();
-        driver.findElement(By.id("username")).sendKeys("tomsmith");
-        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+        driver.findElement(By.id("username")).sendKeys("testtest");
+        driver.findElement(By.id("password")).sendKeys("TestTest");
         driver.findElement(By.cssSelector("#login button")).click();
-//        driver.findElement(By.cssSelector("button[type='submit']"));
 
-        Thread.sleep(1000);
-        assertTrue("Successfully logged in!",
-                driver.findElement(By.cssSelector(".flash.success")).isDisplayed());
-                driver.getCurrentUrl().compareTo("http://the-internet.herokuapp.com/secure");
+        assertTrue("Login was not succeed",
+                driver.findElement(By.id("flash")).isDisplayed());
     }
+
 
     @AfterMethod
     public void tearDown() {
