@@ -3,31 +3,30 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import page_objects.LoginPage;
 
 import static org.testng.AssertJUnit.assertTrue;
 
 public class LoginTest {
     private ChromeDriver driver;
+    private LoginPage loginPage;
 
     @BeforeMethod
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "/home/vika/selenium-drivers/chromedriver");
         driver = new ChromeDriver();
+        loginPage = new LoginPage(driver);
     }
+
 
     @Test
     public void login() throws InterruptedException {
-        driver.get("http://the-internet.herokuapp.com/login");
-        driver.manage().window().maximize();
-        driver.findElement(By.id("username")).sendKeys("tomsmith");
-        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-        driver.findElement(By.cssSelector("#login button")).click();
-//        driver.findElement(By.cssSelector("button[type='submit']"));
 
-        Thread.sleep(1000);
-        assertTrue("Successfully logged in!",
-                driver.findElement(By.cssSelector(".flash.success")).isDisplayed());
-                driver.getCurrentUrl().compareTo("http://the-internet.herokuapp.com/secure");
+        loginPage.loginWith("tomsmith", "SuperSecretPassword!");
+        Thread.sleep(3000);
+        assertTrue("Login was not succeed!", loginPage.isSuccessDisplayed());
+        assertTrue("Login was not succeed",
+                loginPage.getUrl().contains("/secure"));
     }
 
     @AfterMethod
